@@ -12,7 +12,7 @@ class FactsCell: UITableViewCell {
     
     var title = UILabel()
     var descriptionText = UILabel()
-    var imgView = UIImageView()
+    var imgView = CustomImageView()
     var containerView = UIView()
     private var urlString: String = ""
     
@@ -56,18 +56,17 @@ class FactsCell: UITableViewCell {
         
         guard let imageHref = fact.imageHref else {return}
         urlString = imageHref
-        
-        guard let imageURL = URL(string: urlString) else {
-            self.imageView?.image = UIImage(named: "noImageAvailable")
-            return
-        }
-        
+
         // clear old image before downloading new
         self.imgView.image = nil
-        getImageDataFrom(url: imageURL)
+        //getImageDataFrom(url: imageURL)
+
+        //Async download images and cache the downloaded images
+        imgView.loadImageFrom(urlString: urlString)
+
     }
     
-    // MARK: - Get Image Data
+    // MARK: - Get Image Data at once
     private func getImageDataFrom(url: URL) {
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             // Handle Error
@@ -89,6 +88,7 @@ class FactsCell: UITableViewCell {
             }
         }.resume()
     }
+
     // MARK: - Configure Image View
     private func configureImageView() {
         imgView.contentMode = .scaleAspectFit
