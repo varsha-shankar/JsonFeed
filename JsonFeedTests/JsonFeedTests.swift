@@ -11,12 +11,56 @@ import XCTest
 
 class JsonFeedTests: XCTestCase {
 
-    override func setUpWithError() throws {
+    var viewModel: FactsViewModel!
+    var apiService: NetworkWorker!
+    var objFacts: Facts!
+    var imageView: CustomImageView!
+
+    override func setUp() {
+        self.viewModel = FactsViewModel()
+        self.apiService = NetworkWorker()
+        self.imageView = CustomImageView()
+        super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown() {
+         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        self.viewModel = nil
+        self.apiService = nil
+        self.imageView = nil
+        super.tearDown()
+
+    }
+
+    func testTitleWithoutAPICall() {
+        XCTAssertTrue(viewModel.getTitle() == "")
+    }
+
+    func testFactsViwModel() {
+        callAPI()
+        XCTAssertTrue(self.objFacts.rows!.count > 0)
+
+    }
+
+    func testTitle() {
+        callAPI()
+        XCTAssertTrue(self.objFacts.title == "About Canada")
+    }
+
+    func callAPI() {
+        self.viewModel.fetchFactsRows(completion: {
+            self.apiService.getFactsJsonFeed { (result) in
+                switch result {
+                case .success(let items):
+                    self.objFacts = items
+                    break
+
+                case .failure(_):
+                    break
+                }
+            }
+        })
     }
 
     func testExample() throws {
