@@ -12,6 +12,7 @@ class FactsViewModel {
     
     private var networkWorker = NetworkWorker()
     private var factsData = [Rows]()
+    private var title = ""
     
     func fetchFactsRows(completion: @escaping () -> ()) {
         
@@ -19,6 +20,7 @@ class FactsViewModel {
             
             switch result {
             case .success(let listOf) :
+                self?.title = listOf.title
                 for row in listOf.rows! {
                     if let _ = row.title {
                         self?.factsData.append(row)
@@ -28,21 +30,22 @@ class FactsViewModel {
             case .failure(let error):
                 print("error",error)
             }
-            
         }
-        
     }
     
-       
-       func numberOfRowsInSection(section: Int) -> Int {
-           if factsData.count != 0 {
-               return factsData.count
-           }
-           return 0
-       }
-       
-       func cellForRowAt (indexPath: IndexPath) -> Rows {
-           return factsData[indexPath.row]
-       }
-
+    func getTitle() -> String {
+        return title
+    }
+    
+    func numberOfRowsInSection(section: Int) -> Int {
+        if factsData.count != 0 {
+            return factsData.count
+        }
+        return 0
+    }
+    
+    func cellForRowAt (indexPath: IndexPath) -> Rows {
+        return factsData[indexPath.row]
+    }
+    
 }

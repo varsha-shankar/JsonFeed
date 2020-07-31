@@ -7,7 +7,6 @@
 import Foundation
 
 struct Facts: Decodable {
-    
     var title: String
     var rows: [Rows]?
 }

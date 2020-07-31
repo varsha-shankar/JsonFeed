@@ -14,12 +14,11 @@ class FactsCell: UITableViewCell {
     var descriptionText = UILabel()
     var imgView = UIImageView()
     var containerView = UIView()
-
     private var urlString: String = ""
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-       
+        
         self.contentView.addSubview(imgView)
         containerView.addSubview(title)
         containerView.addSubview(descriptionText)
@@ -35,6 +34,8 @@ class FactsCell: UITableViewCell {
         setTitleLabelConstraints()
         setDescriptionLabelConstraints()
         
+        self.layoutIfNeeded()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -43,28 +44,30 @@ class FactsCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        self.title.text = nil
+        self.descriptionText.text = nil
         self.imgView.image = nil
     }
     
+    // MARK: - Configure Cell
     func set(fact: Rows) {
         title.text = fact.title
         descriptionText.text = fact.description
         
         guard let imageHref = fact.imageHref else {return}
         urlString = imageHref
-               
-               guard let imageURL = URL(string: urlString) else {
-                self.imageView?.image = UIImage(named: "noImageAvailable")
-                   return
-               }
-               
-               // Before we download the image we clear out the old one
-               self.imgView.image = nil
-               
-               getImageDataFrom(url: imageURL)
+        
+        guard let imageURL = URL(string: urlString) else {
+            self.imageView?.image = UIImage(named: "noImageAvailable")
+            return
+        }
+        
+        // clear old image before downloading new
+        self.imgView.image = nil
+        getImageDataFrom(url: imageURL)
     }
     
-    // MARK: - Get image data
+    // MARK: - Get Image Data
     private func getImageDataFrom(url: URL) {
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             // Handle Error
@@ -86,48 +89,57 @@ class FactsCell: UITableViewCell {
             }
         }.resume()
     }
-    
-    func configureImageView() {
-        imgView.contentMode = .scaleAspectFill
+    // MARK: - Configure Image View
+    private func configureImageView() {
+        imgView.contentMode = .scaleAspectFit
         imgView.layer.cornerRadius = 10
         imgView.clipsToBounds = true
     }
     
-    func configureContainerView() {
+    // MARK: - Configure Container View
+    private func configureContainerView() {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.clipsToBounds = true
     }
     
-    func configureTitleLabel() {
+    // MARK: - Configure Title Label
+    private func configureTitleLabel() {
         title.numberOfLines = 0
         title.adjustsFontSizeToFitWidth = true
+        title.adjustsFontForContentSizeCategory = true
         title.font = UIFont.boldSystemFont(ofSize: 20)
         title.textColor = UIColor.black
     }
     
-    func configureDesciptionLabel() {
+    // MARK: - Configure Description Label
+    private func configureDesciptionLabel() {
         descriptionText.numberOfLines = 0
+        descriptionText.minimumScaleFactor = 10.0
         descriptionText.adjustsFontSizeToFitWidth = true
+        descriptionText.adjustsFontForContentSizeCategory = true
         descriptionText.font = UIFont.systemFont(ofSize: 14)
         descriptionText.textColor = UIColor.darkGray
     }
     
-    func setImageConstraints() {
+    // MARK: - Set Image Constraints
+    private func setImageConstraints() {
         imgView.translatesAutoresizingMaskIntoConstraints = false
         imgView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
         imgView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-        imgView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        imgView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         imgView.widthAnchor.constraint(equalTo: imgView.heightAnchor, multiplier: 16/9).isActive = true
-
+        
     }
-    
-    func setContainerViewConstraints() {
+
+    // MARK: - Set Container View Constraints
+    private func setContainerViewConstraints() {
         containerView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
         containerView.leadingAnchor.constraint(equalTo: self.imgView.trailingAnchor, constant: 10).isActive = true
         containerView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10).isActive = true
     }
     
-    func setTitleLabelConstraints() {
+    // MARK: - Set Title Label Constraints
+    private func setTitleLabelConstraints() {
         title.translatesAutoresizingMaskIntoConstraints = false
         title.topAnchor.constraint(equalTo: self.containerView.topAnchor).isActive = true
         title.leadingAnchor.constraint(equalTo: self.containerView.leadingAnchor).isActive = true
@@ -136,14 +148,11 @@ class FactsCell: UITableViewCell {
         contentView.layoutMarginsGuide.bottomAnchor.constraint(equalToSystemSpacingBelow: descriptionText.lastBaselineAnchor, multiplier: 1).isActive = true
     }
     
-    func setDescriptionLabelConstraints() {
-
+    // MARK: - Set Description Label Constraints
+    private func setDescriptionLabelConstraints() {
         descriptionText.translatesAutoresizingMaskIntoConstraints = false
         descriptionText.topAnchor.constraint(equalTo: self.title.bottomAnchor).isActive = true
         descriptionText.leadingAnchor.constraint(equalTo: self.containerView.leadingAnchor).isActive = true
         descriptionText.trailingAnchor.constraint(equalTo: title.trailingAnchor).isActive = true
-        descriptionText.firstBaselineAnchor.constraint(equalToSystemSpacingBelow: title.lastBaselineAnchor, multiplier: 1).isActive = true
-
-        
     }
 }
