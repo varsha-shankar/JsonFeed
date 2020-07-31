@@ -24,13 +24,14 @@ class FactsViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         self.tableView.layoutIfNeeded()
-        self.tableView.setNeedsLayout()
     }
-        
+
+    // MARK: - Set Navigation Bar Title
     private func setNavigationBarTitle() {
         self.navigationController?.navigationBar.topItem?.title = viewModel.getTitle()
     }
-    
+
+    // MARK: - Load Data into Tableviw
     private func loadFacts() {
         self.showActivityIndicator()
         viewModel.fetchFactsRows { [weak self] in
@@ -41,6 +42,8 @@ class FactsViewController: UIViewController {
             self?.tableView.reloadData()
         }
     }
+
+    // MARK: - Configure Table view
     private func configureTableView() {
         view.addSubview(tableView)
         setTableViewDelegates()
@@ -49,7 +52,8 @@ class FactsViewController: UIViewController {
         tableView.pin(to: view)
         tableView.backgroundColor = UIColor.gray
     }
-    
+
+    // MARK: - Set Tableview Delegate
     private func setTableViewDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -72,18 +76,21 @@ extension FactsViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension FactsViewController {
-    
+
+    // MARK: - Method to show activity indicator
     private func showActivityIndicator() {
         activityIndicator.center = view.center
         activityIndicator.hidesWhenStopped = false
         activityIndicator.startAnimating()
         view.addSubview(activityIndicator)
     }
-    
+
+    // MARK: - Method to stop activity indicator
     private func stopActivityIndicator() {
         activityIndicator.stopAnimating()
     }
-    
+
+    // MARK: - Configure refresh control
     private func configurePullToRefresh() {
         refreshControl.addTarget(self, action: #selector(FactsViewController.pullToRefresh), for: .valueChanged)
         self.tableView.insertSubview(refreshControl, at: 0)

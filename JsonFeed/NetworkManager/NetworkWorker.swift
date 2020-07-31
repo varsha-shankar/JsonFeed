@@ -11,7 +11,9 @@ import Foundation
 class NetworkWorker {
     
     private var dataTask: URLSessionDataTask?
-    
+
+    // MARK: - Network Call to get the json feed from URL
+
     func getFactsJsonFeed(completion: @escaping (Result<Facts, Error>) -> Void) {
         
         let requestURLString = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json"
@@ -38,8 +40,6 @@ class NetworkWorker {
             
             do {
                 let jsonData = try JSONDecoder().decode(Facts.self, from: properData)
-                
-                //Main Thread Operation
                 DispatchQueue.main.async {
                     completion(.success(jsonData))
                 }

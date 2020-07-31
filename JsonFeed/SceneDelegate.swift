@@ -21,6 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
+
+        // Configure FactsViewController and seet Navigation View Controller as Root View Controller
         let mainViewController = FactsViewController() as UIViewController
         let navigationViewController = UINavigationController(rootViewController: mainViewController)
         navigationViewController.navigationBar.isTranslucent = false

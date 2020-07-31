@@ -13,7 +13,8 @@ class FactsViewModel {
     private var networkWorker = NetworkWorker()
     private var factsData = [Rows]()
     private var title = ""
-    
+
+    // MARK: - Method to fetch Rows from Json Feed
     func fetchFactsRows(completion: @escaping () -> ()) {
         
         networkWorker.getFactsJsonFeed { [weak self] (result) in
@@ -32,18 +33,21 @@ class FactsViewModel {
             }
         }
     }
-    
+
+    // MARK: - Get Title
     func getTitle() -> String {
         return title
     }
-    
+
+    // MARK: - Get Number of Rows
     func numberOfRowsInSection(section: Int) -> Int {
         if factsData.count != 0 {
             return factsData.count
         }
         return 0
     }
-    
+
+    // MARK: - Set Data for Cell
     func cellForRowAt (indexPath: IndexPath) -> Rows {
         return factsData[indexPath.row]
     }
