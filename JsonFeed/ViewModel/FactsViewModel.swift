@@ -16,21 +16,27 @@ class FactsViewModel {
     
     // MARK: - Method to fetch Rows from Json Feed
     func fetchFactsRows(completion: @escaping () -> ()) {
-        
-        self.resetDataSource()
-        networkWorker.getFactsJsonFeed { [weak self] (result) in
-            switch result {
-            case .success(let listOf) :
-                self?.title = listOf.title
-                for row in listOf.rows! {
-                    if let _ = row.title {
-                        self?.factsData.append(row)
+
+        if !NetworkStatus.sharedInstance.hasConnectivity() {
+            self.resetDataSource()
+            completion()
+        } else {
+
+            networkWorker.getFactsJsonFeed { [weak self] (result) in
+                switch result {
+                case .success(let listOf) :
+                    self?.title = listOf.title
+                    for row in listOf.rows! {
+                        if let _ = row.title {
+                            self?.factsData.append(row)
+                        }
                     }
+                    completion()
+                case .failure(let error):
+                    self?.resetDataSource()
+                    completion()
+                    print("Error in getting json feed",error)
                 }
-                completion()
-            case .failure(let error):
-                completion()
-                print("Error in getting json feed",error)
             }
         }
     }

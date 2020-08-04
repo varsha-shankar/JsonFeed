@@ -34,15 +34,11 @@ class FactsViewController: UIViewController {
     // MARK: - Load Data into Tableviw
     private func loadFacts() {
         self.showActivityIndicator()
-        viewModel.fetchFactsRows { [weak self] in
-            DispatchQueue.main.async {
-                self?.setNavigationBarTitle()
-                self?.stopActivityIndicator()
-                self?.refreshControl.endRefreshing()
-                self?.tableView.dataSource = self
-                self?.tableView.reloadData()
-            }
-
+            viewModel.fetchFactsRows { [weak self] in
+                DispatchQueue.main.async {
+                    self?.tableView.dataSource = self
+                    self?.stopUIOperation()
+                }
         }
     }
 
@@ -61,6 +57,14 @@ class FactsViewController: UIViewController {
     private func setTableViewDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
+    }
+
+    // MARK: - Stop UI Operations
+    private func stopUIOperation() {
+        self.setNavigationBarTitle()
+        self.stopActivityIndicator()
+        self.refreshControl.endRefreshing()
+        self.tableView.reloadData()
     }
 }
 
@@ -103,6 +107,6 @@ extension FactsViewController {
     }
     
     @objc func pullToRefresh() {
-        loadFacts()
+            loadFacts()
     }
 }
