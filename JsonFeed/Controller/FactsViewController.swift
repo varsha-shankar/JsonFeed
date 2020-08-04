@@ -35,17 +35,21 @@ class FactsViewController: UIViewController {
     private func loadFacts() {
         self.showActivityIndicator()
         viewModel.fetchFactsRows { [weak self] in
-            self?.setNavigationBarTitle()
-            self?.stopActivityIndicator()
-            self?.refreshControl.endRefreshing()
-            self?.tableView.dataSource = self
-            self?.tableView.reloadData()
+            DispatchQueue.main.async {
+                self?.setNavigationBarTitle()
+                self?.stopActivityIndicator()
+                self?.refreshControl.endRefreshing()
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
+            }
+
         }
     }
 
     // MARK: - Configure Table view
     private func configureTableView() {
         view.addSubview(tableView)
+        configurePullToRefresh()
         setTableViewDelegates()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.register(FactsCell.self, forCellReuseIdentifier: "factsCell")
@@ -87,6 +91,7 @@ extension FactsViewController {
 
     // MARK: - Method to stop activity indicator
     private func stopActivityIndicator() {
+        activityIndicator.hidesWhenStopped = true
         activityIndicator.stopAnimating()
     }
 
