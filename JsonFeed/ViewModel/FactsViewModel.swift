@@ -24,6 +24,7 @@ class FactsViewModel {
             networkWorker.getFactsJsonFeed(urlString: url) { [weak self] (result) in
                 switch result {
                 case .success(let listOf) :
+                    self?.factsData.removeAll()
                     self?.title = listOf.title
                     for row in listOf.rows! {
                         if let _ = row.title {
