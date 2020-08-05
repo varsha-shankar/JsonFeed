@@ -21,6 +21,11 @@
 		0C13858324D401FA00749441 /* FactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C13858224D401FA00749441 /* FactsCell.swift */; };
 		F98262A924D49C8000DA5568 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98262A824D49C8000DA5568 /* CustomImageView.swift */; };
 		F98262AB24D49CC900DA5568 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98262AA24D49CC900DA5568 /* ImageCacheManager.swift */; };
+		F98262B024D9E3CC00DA5568 /* NetworkStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98262AF24D9E3CC00DA5568 /* NetworkStatus.swift */; };
+		F98262B424D9E52F00DA5568 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F98262B324D9E52F00DA5568 /* Reachability.m */; };
+		F98262B724DA6E8100DA5568 /* facts.json in Resources */ = {isa = PBXBuildFile; fileRef = F98262B624DA6E8100DA5568 /* facts.json */; };
+		F98262BA24DA6ED000DA5568 /* XCTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98262B924DA6ED000DA5568 /* XCTestCase.swift */; };
+		F9B08E8E24DAD32E006015A0 /* AppConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9B08E8D24DAD32E006015A0 /* AppConstant.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +66,13 @@
 		0C13858224D401FA00749441 /* FactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FactsCell.swift; sourceTree = "<group>"; };
 		F98262A824D49C8000DA5568 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		F98262AA24D49CC900DA5568 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		F98262AF24D9E3CC00DA5568 /* NetworkStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatus.swift; sourceTree = "<group>"; };
+		F98262B124D9E52000DA5568 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		F98262B224D9E52F00DA5568 /* JsonFeed-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JsonFeed-Bridging-Header.h"; sourceTree = "<group>"; };
+		F98262B324D9E52F00DA5568 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		F98262B624DA6E8100DA5568 /* facts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = facts.json; sourceTree = "<group>"; };
+		F98262B924DA6ED000DA5568 /* XCTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestCase.swift; sourceTree = "<group>"; };
+		F9B08E8D24DAD32E006015A0 /* AppConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstant.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +123,8 @@
 		0C13853924D3F5F300749441 /* JsonFeed */ = {
 			isa = PBXGroup;
 			children = (
+				F9B08E8C24DAD31A006015A0 /* Constants */,
+				F98262AE24D9E3AA00DA5568 /* Utility */,
 				0C13856F24D3F78300749441 /* Extension */,
 				0C13856E24D3F74600749441 /* Model */,
 				0C13856D24D3F73C00749441 /* View */,
@@ -129,7 +143,9 @@
 		0C13855024D3F5F400749441 /* JsonFeedTests */ = {
 			isa = PBXGroup;
 			children = (
-				0C13855124D3F5F400749441 /* JsonFeedTests.swift */,
+				F98262BB24DA6F4D00DA5568 /* Test Cases */,
+				F98262B824DA6EA400DA5568 /* Extensions */,
+				F98262B524DA6C6800DA5568 /* Stub */,
 				0C13855324D3F5F400749441 /* Info.plist */,
 			);
 			path = JsonFeedTests;
@@ -192,6 +208,49 @@
 				0C13857024D3F7C100749441 /* UIView+Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		F98262AE24D9E3AA00DA5568 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				F98262AF24D9E3CC00DA5568 /* NetworkStatus.swift */,
+				F98262B124D9E52000DA5568 /* Reachability.h */,
+				F98262B324D9E52F00DA5568 /* Reachability.m */,
+				F98262B224D9E52F00DA5568 /* JsonFeed-Bridging-Header.h */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		F98262B524DA6C6800DA5568 /* Stub */ = {
+			isa = PBXGroup;
+			children = (
+				F98262B624DA6E8100DA5568 /* facts.json */,
+			);
+			path = Stub;
+			sourceTree = "<group>";
+		};
+		F98262B824DA6EA400DA5568 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F98262B924DA6ED000DA5568 /* XCTestCase.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F98262BB24DA6F4D00DA5568 /* Test Cases */ = {
+			isa = PBXGroup;
+			children = (
+				0C13855124D3F5F400749441 /* JsonFeedTests.swift */,
+			);
+			path = "Test Cases";
+			sourceTree = "<group>";
+		};
+		F9B08E8C24DAD31A006015A0 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				F9B08E8D24DAD32E006015A0 /* AppConstant.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,6 +321,7 @@
 				TargetAttributes = {
 					0C13853624D3F5F300749441 = {
 						CreatedOnToolsVersion = 11.6;
+						LastSwiftMigration = 1110;
 					};
 					0C13854C24D3F5F400749441 = {
 						CreatedOnToolsVersion = 11.6;
@@ -307,6 +367,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F98262B724DA6E8100DA5568 /* facts.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,11 +389,14 @@
 				F98262A924D49C8000DA5568 /* CustomImageView.swift in Sources */,
 				F98262AB24D49CC900DA5568 /* ImageCacheManager.swift in Sources */,
 				0C13858324D401FA00749441 /* FactsCell.swift in Sources */,
+				F9B08E8E24DAD32E006015A0 /* AppConstant.swift in Sources */,
+				F98262B024D9E3CC00DA5568 /* NetworkStatus.swift in Sources */,
 				0C13853F24D3F5F300749441 /* FactsViewController.swift in Sources */,
 				0C13857724D3FC9C00749441 /* FactsViewModel.swift in Sources */,
 				0C13857524D3F89A00749441 /* NetworkWorker.swift in Sources */,
 				0C13853B24D3F5F300749441 /* AppDelegate.swift in Sources */,
 				0C13853D24D3F5F300749441 /* SceneDelegate.swift in Sources */,
+				F98262B424D9E52F00DA5568 /* Reachability.m in Sources */,
 				0C13857924D401A000749441 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,6 +405,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F98262BA24DA6ED000DA5568 /* XCTestCase.swift in Sources */,
 				0C13855224D3F5F400749441 /* JsonFeedTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,6 +563,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = JsonFeed/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
@@ -507,6 +573,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.varsha.JsonFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "JsonFeed/Utility/JsonFeed-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -516,6 +584,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = JsonFeed/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
@@ -525,6 +594,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.varsha.JsonFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "JsonFeed/Utility/JsonFeed-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -537,7 +607,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = JsonFeedTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -558,7 +628,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = JsonFeedTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

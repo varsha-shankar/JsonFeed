@@ -21,8 +21,7 @@ class FactsViewModel {
             self.resetDataSource()
             completion()
         } else {
-
-            networkWorker.getFactsJsonFeed { [weak self] (result) in
+            networkWorker.getFactsJsonFeed(urlString: url) { [weak self] (result) in
                 switch result {
                 case .success(let listOf) :
                     self?.title = listOf.title

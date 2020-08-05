@@ -14,12 +14,12 @@ class NetworkWorker {
 
     // MARK: - Network Call to get the json feed from URL
 
-    func getFactsJsonFeed(completion: @escaping (Result<Facts, Error>) -> Void) {
+    func getFactsJsonFeed(urlString: String, completion: @escaping (Result<Facts, Error>) -> Void) {
 
         let configuration = URLSessionConfiguration.ephemeral
         let session = URLSession(configuration: configuration)
         
-        let requestURLString = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json"
+        let requestURLString = urlString
         guard let url = URL(string: requestURLString) else { return }
         dataTask = session.dataTask(with: url) { (data,response,error) in
             
