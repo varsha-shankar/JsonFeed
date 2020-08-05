@@ -23,15 +23,15 @@ class JsonFeedTests: XCTestCase {
     let cancelTimeOutInterval = 10.0
 
     override func setUpWithError() throws {
-           self.viewModel = FactsViewModel()
-             self.apiService = NetworkWorker()
+        self.viewModel = FactsViewModel()
+        self.apiService = NetworkWorker()
         self.imageView = CustomImageView()
         self.window = UIWindow()
         self.viewControllerUnderTest = FactsViewController()
         self.viewControllerUnderTest.viewDidLoad()
 
 
-             super.setUp()
+        super.setUp()
 
         let data = loadStub(name: "facts", extension: "json")
         guard let dataInString = String(data:data,encoding: String.Encoding.isoLatin1) else { return }
@@ -42,10 +42,12 @@ class JsonFeedTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-            self.viewModel = nil
-            self.apiService = nil
+        self.viewModel = nil
+        self.apiService = nil
         self.imageView = nil
-              super.tearDown()
+        self.viewControllerUnderTest = nil
+        self.window = nil
+        super.tearDown()
     }
 
 
@@ -66,13 +68,11 @@ class JsonFeedTests: XCTestCase {
         }
     }
 
-
-
     func testServiceAPI() {
         let expectation = XCTestExpectation(description: "Test Json Feed Service API")
         DispatchQueue.global(qos: .background).async {
-                self.viewModel.fetchFactsRows(completion: {
-                    self.apiService.getFactsJsonFeed(urlString: url) { (result) in
+            self.viewModel.fetchFactsRows(completion: {
+                self.apiService.getFactsJsonFeed(urlString: url) { (result) in
                     switch result {
                     case .success(let items):
                         self.apiResponse = items
@@ -87,33 +87,41 @@ class JsonFeedTests: XCTestCase {
                 }
             })
         }
-        self.wait(for: [expectation], timeout: cancelTimeOutInterval + 1.0)
+        self.wait(for: [expectation], timeout: cancelTimeOutInterval)
         XCTAssertNotNil(self.apiResponse)
     }
 
     func testImageDownloadAWithoutURL() {
+         let expectation = XCTestExpectation(description: "Load Image API")
         if let imageUrl = (self.objFacts.rows?[4].imageHref) {
-            self.imageView.loadImageFrom(urlString: imageUrl)
-            XCTAssertNotNil(self.imageView.image)
+            DispatchQueue.global(qos: .background).async {
+                self.imageView.loadImageFrom(urlString: imageUrl, completionHandler: { image in
+                    self.imageView.image = image
+                    XCTAssertNil(self.imageView.image)
+                    expectation.fulfill()
+                })
+            }
+            self.wait(for: [expectation], timeout: cancelTimeOutInterval)
         }  else {
             XCTAssertEqual(self.imageView.image, nil)
         }
-      }
-
-    func testImageDownloadWithURL() {
-           if let imageUrl = (self.objFacts.rows?[1].imageHref) {
-            let expectation = XCTestExpectation(description: "Test Json Feed Service API")
-            DispatchQueue.main.async {
-                    self.imageView.loadImageFrom(urlString: imageUrl)
-                    expectation.fulfill()
-
-            }
-            self.wait(for: [expectation], timeout: 20.0 + 1.0)
-            XCTAssertNotNil(self.imageView.image)
-           } else {
-            XCTAssertEqual(self.imageView.image, nil)
-        }
     }
+
+    func testImageDownloadAWithURL() {
+          let expectation = XCTestExpectation(description: "Load Image API")
+         if let imageUrl = (self.objFacts.rows?[1].imageHref) {
+             DispatchQueue.global(qos: .background).async {
+                 self.imageView.loadImageFrom(urlString: imageUrl, completionHandler: { image in
+                    self.imageView.image = image
+                     XCTAssertNotNil(self.imageView.image)
+                     expectation.fulfill()
+                 })
+             }
+             self.wait(for: [expectation], timeout: cancelTimeOutInterval)
+         }  else {
+             XCTAssertEqual(self.imageView.image, nil)
+         }
+     }
 
     func testTableView() {
         XCTAssertNotNil(viewControllerUnderTest.tableView)
@@ -136,35 +144,18 @@ class JsonFeedTests: XCTestCase {
     
 
     func testTableViewConformsToTableViewDataSourceProtocol() {
-           XCTAssertTrue(viewControllerUnderTest.conforms(to: UITableViewDataSource.self))
-           XCTAssertTrue(viewControllerUnderTest.responds(to: #selector(viewControllerUnderTest.tableView(_:numberOfRowsInSection:))))
-           XCTAssertTrue(viewControllerUnderTest.responds(to: #selector(viewControllerUnderTest.tableView(_:cellForRowAt:))))
-       }
+        XCTAssertTrue(viewControllerUnderTest.conforms(to: UITableViewDataSource.self))
+        XCTAssertTrue(viewControllerUnderTest.responds(to: #selector(viewControllerUnderTest.tableView(_:numberOfRowsInSection:))))
+        XCTAssertTrue(viewControllerUnderTest.responds(to: #selector(viewControllerUnderTest.tableView(_:cellForRowAt:))))
+    }
 
+    func testRefreshControl() {
+         XCTAssertNotNil(viewControllerUnderTest.refreshControl)
+    }
 
-    func testServiceAPIWithError() {
-
-          let expectation = XCTestExpectation(description: "Test Json Feed Service API")
-          DispatchQueue.global(qos: .background).async {
-                  self.viewModel.fetchFactsRows(completion: {
-                    self.apiService.getFactsJsonFeed(urlString: "") { (result) in
-                      switch result {
-                      case .success(let item):
-                        self.apiResponse = item
-                        expectation.fulfill()
-                          break
-
-                      case .failure(_):
-                          self.apiResponse = nil
-                          expectation.fulfill()
-                          break
-                      }
-                  }
-              })
-          }
-        self.wait(for: [expectation], timeout: cancelTimeOutInterval + 1.0)
-        XCTAssertNil(self.apiResponse)
-      }
+    func testActivityIndicator() {
+         XCTAssertNotNil(viewControllerUnderTest.activityIndicator)
+    }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.

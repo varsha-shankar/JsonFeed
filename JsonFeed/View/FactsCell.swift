@@ -62,8 +62,11 @@ class FactsCell: UITableViewCell {
         //getImageDataFrom(url: imageURL)
 
         //Async download images and cache the downloaded images
-        imgView.loadImageFrom(urlString: urlString)
-
+       imgView.loadImageFrom(urlString: urlString, completionHandler: { image in
+        DispatchQueue.main.async {
+            self.imgView.image = image
+        }
+        })
     }
     
     // MARK: - Get Image Data at once
@@ -80,7 +83,6 @@ class FactsCell: UITableViewCell {
                 print("Empty Data")
                 return
             }
-            
             DispatchQueue.main.async {
                 if let image = UIImage(data: data) {
                     self.imgView.image = image

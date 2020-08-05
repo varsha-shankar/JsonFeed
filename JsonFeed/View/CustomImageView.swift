@@ -15,17 +15,16 @@ class CustomImageView: UIImageView {
     var imageUrl: String?
 
     // MARK: - Load Image from Url
-    func loadImageFrom(urlString: String) {
+    func loadImageFrom(urlString: String, completionHandler: @escaping (UIImage?) -> Void) {
 
         weak var oldTask = currentTask
         currentTask = nil
         oldTask?.cancel()
         imageUrl = urlString
 
-        image = nil
 
         if let cachedImage = ImageCacheManager.shared.getImage(forKey: urlString) {
-            image = cachedImage
+            completionHandler(cachedImage)
             return
         }
 
@@ -33,6 +32,7 @@ class CustomImageView: UIImageView {
             let session = URLSession.shared
             let dataTask = session.dataTask(with: url) { (data, response, error) in
                 if let unwrappedError = error {
+                    completionHandler(nil)
                     print(unwrappedError)
                     return
                 }
@@ -41,7 +41,7 @@ class CustomImageView: UIImageView {
                     DispatchQueue.main.async(execute: {
                         ImageCacheManager.shared.save(image: downloadedImage, forKey: urlString)
                         if self.imageUrl == urlString {
-                            self.image = downloadedImage
+                            completionHandler(downloadedImage)
                         }
                     })
                 }
