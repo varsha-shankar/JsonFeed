@@ -59,7 +59,6 @@ class FactsCell: UITableViewCell {
 
         // clear old image before downloading new
         self.imgView.image = nil
-        //getImageDataFrom(url: imageURL)
 
         //Async download images and cache the downloaded images
        imgView.loadImageFrom(urlString: urlString, completionHandler: { image in
@@ -67,28 +66,6 @@ class FactsCell: UITableViewCell {
             self.imgView.image = image
         }
         })
-    }
-    
-    // MARK: - Get Image Data at once
-    private func getImageDataFrom(url: URL) {
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            // Handle Error
-            if let error = error {
-                print("DataTask error: \(error.localizedDescription)")
-                return
-            }
-            
-            guard let data = data else {
-                // Handle Empty Data
-                print("Empty Data")
-                return
-            }
-            DispatchQueue.main.async {
-                if let image = UIImage(data: data) {
-                    self.imgView.image = image
-                }
-            }
-        }.resume()
     }
 
     // MARK: - Configure Image View

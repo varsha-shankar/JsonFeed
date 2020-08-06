@@ -8,6 +8,14 @@
 
 import UIKit
 
+typealias JsonFeedCompletionHandler = (RequestStatus) -> Void
+
+enum RequestStatus{
+    case NetworkError
+    case Success
+    case Failure
+}
+
 class FactsViewModel {
     
     private var networkWorker = NetworkWorker()
@@ -15,11 +23,11 @@ class FactsViewModel {
     private var title = ""
     
     // MARK: - Method to fetch Rows from Json Feed
-    func fetchFactsRows(completion: @escaping () -> ()) {
+    func fetchFactsRows(completion: @escaping JsonFeedCompletionHandler = { _ in }) {
 
         if !NetworkStatus.sharedInstance.hasConnectivity() {
             self.resetDataSource()
-            completion()
+            completion(.NetworkError)
         } else {
             networkWorker.getFactsJsonFeed(urlString: url) { [weak self] (result) in
                 switch result {
@@ -31,10 +39,10 @@ class FactsViewModel {
                             self?.factsData.append(row)
                         }
                     }
-                    completion()
+                    completion(.Success)
                 case .failure(let error):
                     self?.resetDataSource()
-                    completion()
+                    completion(.Failure)
                     print("Error in getting json feed",error)
                 }
             }

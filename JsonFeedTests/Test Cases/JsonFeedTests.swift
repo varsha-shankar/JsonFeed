@@ -71,7 +71,7 @@ class JsonFeedTests: XCTestCase {
     func testServiceAPI() {
         let expectation = XCTestExpectation(description: "Test Json Feed Service API")
         DispatchQueue.global(qos: .background).async {
-            self.viewModel.fetchFactsRows(completion: {
+            self.viewModel.fetchFactsRows(completion: { _ in 
                 self.apiService.getFactsJsonFeed(urlString: url) { (result) in
                     switch result {
                     case .success(let items):

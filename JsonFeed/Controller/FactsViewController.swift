@@ -34,11 +34,14 @@ class FactsViewController: UIViewController {
     // MARK: - Load Data into Tableviw
     private func loadFacts() {
         self.showActivityIndicator()
-            viewModel.fetchFactsRows { [weak self] in
-                DispatchQueue.main.async {
-                    self?.tableView.dataSource = self
-                    self?.stopUIOperation()
+        viewModel.fetchFactsRows { status in
+            DispatchQueue.main.async {
+                self.tableView.dataSource = self
+                if status == .NetworkError {
+                    self.displayNetworkReachabilityAlert()
                 }
+                self.stopUIOperation()
+            }
         }
     }
 
@@ -65,6 +68,7 @@ class FactsViewController: UIViewController {
         self.stopActivityIndicator()
         self.refreshControl.endRefreshing()
         self.tableView.reloadData()
+        self.tableView.contentOffset = .zero
     }
 }
 
@@ -107,6 +111,15 @@ extension FactsViewController {
     }
     
     @objc func pullToRefresh() {
-            loadFacts()
+        loadFacts()
+    }
+
+    // MARK: - Display No Internet Connection Alert
+    private func displayNetworkReachabilityAlert() {
+        let alertView = UIAlertController(title: alertTitle, message: alertDescription, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+        })
+        alertView.addAction(ok)
+        self.present(alertView, animated: true, completion: nil)
     }
 }
