@@ -31,19 +31,6 @@ static void PrintReachabilityFlags(SCNetworkReachabilityFlags flags, const char*
 {
 #if kShouldPrintReachabilityFlags
 
-    /*NSLog(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n",
-          (flags & kSCNetworkReachabilityFlagsIsWWAN)				? 'W' : '-',
-          (flags & kSCNetworkReachabilityFlagsReachable)            ? 'R' : '-',
-
-          (flags & kSCNetworkReachabilityFlagsTransientConnection)  ? 't' : '-',
-          (flags & kSCNetworkReachabilityFlagsConnectionRequired)   ? 'c' : '-',
-          (flags & kSCNetworkReachabilityFlagsConnectionOnTraffic)  ? 'C' : '-',
-          (flags & kSCNetworkReachabilityFlagsInterventionRequired) ? 'i' : '-',
-          (flags & kSCNetworkReachabilityFlagsConnectionOnDemand)   ? 'D' : '-',
-          (flags & kSCNetworkReachabilityFlagsIsLocalAddress)       ? 'l' : '-',
-          (flags & kSCNetworkReachabilityFlagsIsDirect)             ? 'd' : '-',
-          comment
-          );*/
 #endif
 }
 
@@ -119,30 +106,6 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 }
 
 #pragma mark reachabilityForLocalWiFi
-//reachabilityForLocalWiFi has been removed from the sample.  See ReadMe.md for more information.
-//+ (instancetype)reachabilityForLocalWiFi
-//
-//+ (instancetype)reachabilityForLocalWiFi
-//{
-//    
-//    struct sockaddr_in localWifiAddress;
-//    bzero(&localWifiAddress, sizeof(localWifiAddress));
-//    localWifiAddress.sin_len = sizeof(localWifiAddress);
-//    localWifiAddress.sin_family = AF_INET;
-//    
-//    // IN_LINKLOCALNETNUM is defined in <netinet/in.h> as 169.254.0.0.
-//    localWifiAddress.sin_addr.s_addr = htonl(IN_LINKLOCALNETNUM);
-//    
-//    Reachability* returnValue = [self reachabilityWithAddress: &localWifiAddress];
-//    if (returnValue != NULL)
-//    {
-//        returnValue->_alwaysReturnLocalWiFiStatus = YES;
-//    }
-//    
-//    return returnValue;
-//}
-
-
 
 #pragma mark - Start and stop notifier
 
@@ -286,10 +249,6 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
         NSLog(@"%lu",(unsigned long)[cset countForObject:@"awdl0"]);
         return (int)[cset countForObject:@"awdl0"];
     }
-    
-    
-    //NSLog(@"%lu",(unsigned long)[cset countForObject:@"awdl0"]);
-    //return [cset countForObject:@"awdl0"];
 }
 
 @end
